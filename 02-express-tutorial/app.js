@@ -1,21 +1,15 @@
 const express = require("express");
 const app = express();
-const logger = require("./logger");
+const peopleRouter = require("./routes/people");
+const loginRouter = require("./routes/auth");
 
-app.use(logger);
+app.use(express.static("./methods-public"));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-	res.send("Home");
-});
-
-app.get("/about", (req, res) => {
-	res.send("About");
-});
-
-app.get("/api", (req, res) => {
-	res.send("Api");
-});
+app.use("/api/people", peopleRouter);
+app.use("/login", loginRouter);
 
 app.listen(5000, () => {
-	console.log("Serveur lancé sur le port 5000");
+	console.log("serveur ok port 5000");
 });
